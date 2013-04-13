@@ -55,3 +55,34 @@ class Lawn
 
 end
 
+def lawnmower in_file_name , out_file_name
+  File.open(in_file_name) do |in_file|
+    File.open(out_file_name , 'w') do |out_file|
+      number_of_tests = in_file.gets.to_i
+      puts "#{number_of_tests} tests"
+
+      number_of_tests.times do |case_index|
+        case_number = case_index + 1
+        puts "Case #{case_number}"
+        lawn_size_string = in_file.gets.chomp
+        height_of_lawn = lawn_size_string.split[0].to_i
+        width_of_lawn = lawn_size_string.split[1].to_i
+        puts "Lawn height #{height_of_lawn} with width #{width_of_lawn}"
+
+        lawn = Lawn.new width_of_lawn , height_of_lawn
+
+        height_of_lawn.times do |y|
+          lawn_row_string = in_file.gets.chomp
+          lawn_row_string.split.each_with_index do |required_height_string, x|
+            lawn.set_value x, y, required_height_string.to_i
+          end
+        end
+
+        lawn.possible? ? outcome = "YES" : outcome = "NO"
+
+        out_file.puts "Case \##{case_number}: #{outcome}"
+      end
+    end
+  end
+end
+
