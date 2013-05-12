@@ -3,18 +3,15 @@ $consonants= "bcdfghjklmnpqrstvwxyz"
 
 def find_n_consonants string, n
   n_consonant_locations =[]
+  consecutive_consonants = 0
   string.size.times do |char_check_index|
     is_run = true
-    n.times do |consonant_run_index|
-      if consonant_run_index + char_check_index < string.size
-        
-        is_run = false unless $consonants.include?(string[char_check_index+consonant_run_index])
-      else
-        is_run = false
-      end
+    if $consonants.include? string[char_check_index]
+      consecutive_consonants += 1
+    else 
+      consecutive_consonants = 0
     end
-    n_consonant_locations << char_check_index if is_run
-
+    n_consonant_locations << char_check_index - n + 1  if consecutive_consonants >= n
   end
   n_consonant_locations
 end
